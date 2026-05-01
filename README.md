@@ -1,29 +1,26 @@
-# 🏦 Система управления кредитами — Практическая работа
+# 🏦 Credit Loan Management System
 
-## Обзор
-
-Комплект проектов, реализующих **систему управления жизненным циклом кредита**:
-UML-диаграмма состояний + два полноценных Java/JavaFX-приложения (Maven и Gradle).
+A practical Java/JavaFX project that implements a **credit loan lifecycle state machine** — including a UML state diagram and two fully functional build configurations (Maven and Gradle).
 
 ---
 
-## 📂 Структура репозитория
+## 📂 Repository Structure
 
 ```
 /
-├── README.md                  ← этот файл (общий обзор)
+├── README.md                        ← this file
 │
-├── credit-uml/                ← 📊 Проект 1: UML-диаграмма
+├── credit-uml/                      ← Project 1: UML State Diagram
 │   ├── README.md
 │   └── diagram.puml
 │
-├── credit-gradle/             ← ⚙️ Проект 2: Java + JavaFX (Gradle)
+├── credit-gradle/                   ← Project 2: JavaFX + Gradle
 │   ├── README.md
 │   ├── build.gradle.kts
 │   ├── settings.gradle.kts
 │   └── src/main/java/org/example/App1.java
 │
-└── credit-maven/              ← ⚙️ Проект 3: Java + JavaFX (Maven)
+└── credit-maven/                    ← Project 3: JavaFX + Maven
     ├── README.md
     ├── pom.xml
     └── src/main/java/org/example/App1.java
@@ -31,104 +28,99 @@ UML-диаграмма состояний + два полноценных Java/J
 
 ---
 
-## 🎯 Цель работы
+## 🎯 Learning Objectives
 
-Изучить:
-- Построение **UML State Machine Diagram** (диаграмма состояний)
-- Настройку **Gradle Kotlin DSL** проекта с JavaFX
-- Настройку **Maven** проекта с JavaFX
-- Реализацию логики **конечного автомата** в Java
-
----
-
-## 🔄 Жизненный цикл кредита
-
-```
-        ┌─────────────────────────────────────────────────────────┐
-        │                   КРЕДИТНЫЙ ПРОЦЕСС                    │
-        └─────────────────────────────────────────────────────────┘
-
-  ●  →  [Подача заявки]  →  [Проверка данных]
-                                  │         │
-                          [Доп. проверка]  [Отклонено] → ◎
-                                  │         │
-                              [Одобрено] ───┘
-                                  │
-                           [Выдача кредита]
-                                  │
-                           [Активный кредит]
-                            │           │
-                        [Закрыт]    [Просрочка]
-                            │           │
-                            └─────◎─────┘
-```
-
-| Состояние           | Цвет      | Описание                          |
-|---------------------|-----------|-----------------------------------|
-| Подача заявки       | 🔵 Синий  | Клиент подал заявку               |
-| Проверка данных     | 🟡 Жёлтый | Скоринг / первичный анализ        |
-| Дополнит. проверка  | 🟠 Оранжев| Углублённая верификация           |
-| Одобрено            | 🟢 Зелёный| Кредит разрешён                   |
-| Отклонено           | 🔴 Красный| Кредит запрещён                   |
-| Выдача кредита      | 🔵 Синий  | Перечисление средств              |
-| Активный кредит     | 🔵 Синий  | Клиент вносит платежи             |
-| Просрочка           | 🔴 Красный| Пропуск платежа                   |
-| Закрыт              | ⚫ Серый  | Кредит полностью погашен          |
+- Build a **UML State Machine Diagram** using PlantUML
+- Configure a **Gradle Kotlin DSL** project with JavaFX
+- Configure an **Apache Maven** project with JavaFX
+- Implement a **finite state machine** in Java with a live UI
 
 ---
 
-## 🚀 Быстрый старт
+## 🔄 Loan Lifecycle
 
-### Проект 1 — UML (просмотр диаграммы)
+```
+  ●  →  [Application Submitted]  →  [Under Review]
+                                        │        │
+                                  [Verification]  [Rejected] → ◎
+                                        │        │
+                                    [Approved] ──┘
+                                        │
+                                   [Disbursed]
+                                        │
+                                  [Active Loan]
+                                   │         │
+                                [Closed]  [Overdue]
+                                   │         │
+                                   └────◎────┘
+```
+
+| State                | Color      | Description                          |
+|----------------------|------------|--------------------------------------|
+| Application Submitted | 🔵 Blue   | Client submitted a loan application  |
+| Under Review          | 🟡 Yellow | Initial scoring / data check         |
+| Verification          | 🟠 Orange | In-depth verification required       |
+| Approved              | 🟢 Green  | Loan approved                        |
+| Rejected              | 🔴 Red    | Loan denied                          |
+| Disbursed             | 🔵 Blue   | Funds transferred to client          |
+| Active Loan           | 🔵 Blue   | Client is making payments            |
+| Overdue               | 🔴 Red    | Payment missed                       |
+| Closed                | ⚫ Grey   | Loan fully repaid                    |
+
+---
+
+## 🚀 Quick Start
+
+### Project 1 — UML Diagram
 
 ```bash
-# Онлайн (без установки)
+# Online (no install needed)
 # → https://www.plantuml.com/plantuml/uml/
-# Вставьте содержимое credit-uml/diagram.puml
+# Paste the contents of credit-uml/diagram.puml
 
-# Локально
+# Locally
 java -jar plantuml.jar credit-uml/diagram.puml
 ```
 
-### Проект 2 — Gradle
+### Project 2 — Gradle
 
 ```bash
 cd credit-gradle
-./gradlew run          # запустить приложение
-./gradlew test         # запустить тесты
-./gradlew build        # полная сборка
+./gradlew run          # launch the app
+./gradlew test         # run tests
+./gradlew build        # full build
 ```
 
-### Проект 3 — Maven
+### Project 3 — Maven
 
 ```bash
 cd credit-maven
-mvn javafx:run         # запустить приложение
-mvn test               # запустить тесты
-mvn package            # собрать fat-jar
+mvn javafx:run         # launch the app
+mvn test               # run tests
+mvn package            # build fat-jar
 ```
 
 ---
 
-## 🛠 Технологии
+## 🛠 Tech Stack
 
-| Технология        | Версия  | Роль                        |
+| Technology        | Version | Role                        |
 |-------------------|---------|-----------------------------|
-| Java              | 17+     | Язык программирования       |
-| JavaFX            | 21      | GUI-фреймворк               |
-| Gradle Kotlin DSL | 8.x     | Система сборки (проект 2)   |
-| Apache Maven      | 3.9+    | Система сборки (проект 3)   |
-| JUnit 5           | 5.10.2  | Модульное тестирование      |
-| PlantUML          | любая   | Генерация UML-диаграмм      |
+| Java              | 17+     | Programming language        |
+| JavaFX            | 21      | GUI framework               |
+| Gradle Kotlin DSL | 8.x     | Build system (project 2)    |
+| Apache Maven      | 3.9+    | Build system (project 3)    |
+| JUnit 5           | 5.10.2  | Unit testing                |
+| PlantUML          | any     | UML diagram generation      |
 
 ---
 
-## ✅ Выполненные задания
+## ✅ Completed Tasks
 
-- [x] Построена UML-диаграмма состояний (PlantUML)
-- [x] Описаны 9 состояний и все переходы между ними
-- [x] Даны инструкции для draw.io и PlantUML Online
-- [x] Настроен **Gradle Kotlin DSL** проект с JavaFX 21
-- [x] Настроен **Maven** проект с JavaFX 21
-- [x] Реализовано JavaFX-приложение с визуализацией состояний
-- [x] Добавлен журнал событий и кнопки управления переходами
+- [x] UML state diagram built with PlantUML
+- [x] 9 states and all transitions defined
+- [x] Viewing instructions for draw.io and PlantUML Online
+- [x] Gradle Kotlin DSL project configured with JavaFX 21
+- [x] Maven project configured with JavaFX 21
+- [x] JavaFX app with live state visualization
+- [x] Event log and manual transition controls
