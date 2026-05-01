@@ -1,0 +1,53 @@
+@startuml Credit_Loan_State_Diagram
+
+skinparam state {
+    BackgroundColor<<process>>   #DDEEFF
+    BorderColor<<process>>       #2255AA
+    BackgroundColor<<approved>>  #DDFFDD
+    BorderColor<<approved>>      #228822
+    BackgroundColor<<rejected>>  #FFDDDD
+    BorderColor<<rejected>>      #AA2222
+    BackgroundColor<<check>>     #FFFFCC
+    BorderColor<<check>>         #AA8800
+    BackgroundColor<<final>>     #EEEEEE
+    BorderColor<<final>>         #666666
+    FontName Arial
+    FontSize 13
+}
+
+skinparam ArrowColor #333333
+skinparam ArrowFontSize 11
+skinparam ArrowFontColor #555555
+
+title Диаграмма состояний: Система управления кредитами
+
+[*] --> ApplicationSubmitted : Клиент подаёт заявку
+
+state "Подача заявки\n(Application Submitted)" as ApplicationSubmitted <<process>>
+state "Проверка данных\n(Under Review)" as UnderReview <<check>>
+state "Дополнительная проверка\n(Verification)" as Verification <<check>>
+state "Одобрено\n(Approved)" as Approved <<approved>>
+state "Отклонено\n(Rejected)" as Rejected <<rejected>>
+state "Выдача кредита\n(Disbursed)" as Disbursed <<process>>
+state "Активный кредит\n(Active Loan)" as ActiveLoan <<process>>
+state "Просрочка\n(Overdue)" as Overdue <<rejected>>
+state "Закрыт\n(Closed)" as Closed <<final>>
+
+ApplicationSubmitted --> UnderReview      : Заявка принята в работу
+UnderReview          --> Approved         : Данные корректны / решение положительное
+UnderReview          --> Rejected         : Данные не прошли проверку
+UnderReview          --> Verification     : Требуется доп. проверка
+
+Verification         --> Approved         : Проверка пройдена
+Verification         --> Rejected         : Проверка не пройдена
+
+Approved             --> Disbursed        : Подписан договор
+Disbursed            --> ActiveLoan       : Средства зачислены
+ActiveLoan           --> Closed           : Кредит полностью погашен
+ActiveLoan           --> Overdue          : Пропущен платёж
+Overdue              --> Closed           : Задолженность погашена
+
+Rejected             --> [*]              : Процесс завершён (отказ)
+Closed               --> [*]              : Процесс завершён (закрыт)
+
+@enduml
